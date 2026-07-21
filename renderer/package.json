@@ -1,0 +1,5 @@
+{
+  "name": "desktopcompanion-renderer",
+  "private": true,
+  "type": "module"
+}

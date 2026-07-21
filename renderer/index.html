@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>DesktopCompanion</title>
+    <style>
+      html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: transparent; overflow: hidden; -webkit-user-select: none; user-select: none; }
+      #root { width: 100vw; height: 100vh; position: relative; }
+      canvas { display: block; background: transparent !important; }
+      #empty {
+        position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+        text-align: center; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+        font-family: system-ui, sans-serif; font-size: 13px; padding: 24px;
+      }
+      #empty button { margin-top: 12px; padding: 8px 14px; border-radius: 8px; border: 0; background: #4f46e5; color: #fff; font-weight: 600; cursor: pointer; }
+      #empty button:hover { background: #6366f1; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./mascot.js"></script>
+  </body>
+</html>

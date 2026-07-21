@@ -1,0 +1,93 @@
+name: Build & Release DesktopCompanion
+
+# Trigger:
+#   - push a tag like v0.1.0 → builds all platforms and creates a GitHub Release
+#   - manual dispatch         → builds and uploads artifacts (no release)
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    name: Build Windows x64
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run electron:package:win
+      - name: Zip build
+        shell: pwsh
+        run: |
+          Compress-Archive -Path electron-release/DesktopCompanion-win32-x64 -DestinationPath DesktopCompanion-win32-x64.zip -CompressionLevel Optimal
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DesktopCompanion-win32-x64
+          path: DesktopCompanion-win32-x64.zip
+          if-no-files-found: error
+
+  build-linux:
+    name: Build Linux x64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run electron:package:linux
+      - name: Tar build
+        run: |
+          cd electron-release
+          tar czf ../DesktopCompanion-linux-x64.tar.gz DesktopCompanion-linux-x64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DesktopCompanion-linux-x64
+          path: DesktopCompanion-linux-x64.tar.gz
+          if-no-files-found: error
+
+  build-macos:
+    name: Build macOS (universal)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run electron:package:mac
+      - name: Zip build
+        run: |
+          cd electron-release
+          zip -ry ../DesktopCompanion-darwin-universal.zip DesktopCompanion-darwin-universal
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DesktopCompanion-darwin-universal
+          path: DesktopCompanion-darwin-universal.zip
+          if-no-files-found: error
+
+  release:
+    name: Publish GitHub Release
+    needs: [build-windows, build-linux, build-macos]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/DesktopCompanion-win32-x64/DesktopCompanion-win32-x64.zip
+            dist/DesktopCompanion-linux-x64/DesktopCompanion-linux-x64.tar.gz
+            dist/DesktopCompanion-darwin-universal/DesktopCompanion-darwin-universal.zip
+          generate_release_notes: true
+          draft: false
+          prerelease: false
