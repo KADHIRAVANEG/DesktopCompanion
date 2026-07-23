@@ -1,9 +1,9 @@
 # DesktopCompanion
 
-Open-source desktop mate (VRM mascot) — transparent, frameless, always-on-top.
-Built with **Electron + three.js + @pixiv/three-vrm**. Runs on Windows, Linux, and macOS.
+>Open-source desktop mate (VRM mascot) — transparent, frameless, always-on-top.
+>Built with **Electron + three.js + @pixiv/three-vrm**. Runs on Windows, Linux, and macOS.
 
-Ships with 7 preset avatars bundled inside the app — no external downloads.
+Ships with **7** preset avatars bundled inside the app — no external downloads.
 Users can also load their own `.vrm` file from Settings.
 
 ## Download
@@ -14,7 +14,7 @@ Grab the latest build from [Releases](../../releases):
 - **Linux** — `DesktopCompanion-linux-x64.tar.gz`
 - **macOS** — `DesktopCompanion-darwin-universal.zip` (Intel + Apple Silicon)
 
-Extract and launch `DesktopCompanion` (`.exe` on Windows, `.app` on macOS).
+### Extract and launch `DesktopCompanion` (`.exe` on Windows, `.app` on macOS).
 
 ## Build from source
 
@@ -48,7 +48,3 @@ via tray → "Choose VRM…".
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md).
 Security issues: [SECURITY.md](./SECURITY.md).
-
-## License
-
-[MIT](./LICENSE)
